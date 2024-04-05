@@ -4,6 +4,7 @@ import { useTheme } from "../hooks/useTheme";
 import GlobalStyle from "../components/styles/GlobalStyle";
 import { themeContext } from './home';
 import { useRouter } from "next/router";
+import MailComponent from "../components/commands2/Mail";
 
 function Mail() {
     // themes
@@ -54,9 +55,7 @@ function Mail() {
                 <ThemeProvider theme={selectedTheme}>
                     <GlobalStyle theme={selectedTheme} />
                     <themeContext.Provider value={themeSwitcher}>
-                        <div>
-                            <h1>Mail</h1>
-                        </div>
+                        <MailComponent />
                     </themeContext.Provider>
                 </ThemeProvider>
             )}
