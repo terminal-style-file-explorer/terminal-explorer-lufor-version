@@ -14,7 +14,16 @@ function Loading() {
     const [selectedTheme, setSelectedTheme] = useState(theme);
     const router = useRouter();
     const wrapperRef = useRef(null);
-   
+    useEffect(() => {
+        window.addEventListener(
+            "keydown",
+            e => {
+                ["ArrowUp", "ArrowDown"].indexOf(e.code) > -1 && e.preventDefault();
+            },
+            false
+        );
+    }, []);
+
     // Update meta tag colors when switching themes
     useEffect(() => {
         const themeColor = theme.colors?.body;
@@ -54,7 +63,7 @@ function Loading() {
                 <ThemeProvider theme={selectedTheme}>
                     <GlobalStyle theme={selectedTheme} />
                     <themeContext.Provider value={themeSwitcher}>
-                        <Wrapper onKeyDown={handleKeyDown} tabIndex={0} className="h-screen grid place-items-center"  ref={wrapperRef} >
+                        <Wrapper onKeyDown={handleKeyDown} tabIndex={0} className="h-screen grid place-items-center" ref={wrapperRef} >
                             <h1>press any key to load</h1>
                         </Wrapper>
                     </themeContext.Provider>
