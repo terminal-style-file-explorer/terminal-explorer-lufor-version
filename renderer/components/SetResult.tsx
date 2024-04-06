@@ -1,8 +1,5 @@
 import React from "react";
 import _ from "lodash";
-import { useContext } from "react";
-import { termContext } from "./Terminal";
-import { DidNavigateEvent } from "electron";
 import { CmdNotFound, Empty, Hints } from "./styles/terminal.styled";
 import { Cls } from './commands2/Cls';
 import { Help } from "./commands2/Help";
@@ -10,15 +7,12 @@ import { History } from "./commands2/History";
 import { checkThemeSwitch } from "../utils/funcs";
 import theme from '../components/styles/themes'
 import { ThemesInvalid } from "./commands2/Themes";
-import { Router } from "next/router";
 const myTheme = _.keys(theme);
-import { useRouter } from "next/router";
 import { UsageDiv } from "./styles/outout.styled";
 import { Cmd } from "./styles/help.styled";
 import { User } from "./Terminal";
-import { Su } from "./commands2/Su";
 import { setUserToLS } from "../utils/storage";
-import { setgid } from "process";
+
 
 type Command = {
     cmd: string;
@@ -148,6 +142,8 @@ export async function SetResult(
                     //themeSwitcher([theme[commandArray[2]]]);
                     console.log("theme switcher");
                     themeToReturn(commandArray[2]);
+                    setHistorytoReturn(<Empty />)
+                    setResuleHistory([...resultHistory, historytoReturn])
                 }
                 else {
                     console.log("theme invalid");
@@ -230,7 +226,7 @@ export async function SetResult(
                     setHistorytoReturn(<Empty />)
                     setResuleHistory([...resultHistory, historytoReturn])
                 }
-                else{
+                else {
                     setHistorytoReturn(<UsageDiv>Would you like to input: <Cmd>note</Cmd></UsageDiv>)
                     setResuleHistory([...resultHistory, historytoReturn])
                 }

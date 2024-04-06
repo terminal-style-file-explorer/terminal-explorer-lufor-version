@@ -179,12 +179,12 @@ export default function HomePage() {
       }
     }
 
-    /*
-    for testing
+    
+
         if (ctrlL) {
-          router.push('/login')
+          router.push('/mail')
         }
-    */
+    
 
   }
 

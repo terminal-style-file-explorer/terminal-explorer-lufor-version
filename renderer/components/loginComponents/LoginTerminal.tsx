@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { CmdNotFound, Empty, Form, Input, User, Wrapper } from '../styles/terminal.styled';
 import { setUserToLS } from '../../utils/storage';
 import { useRouter } from 'next/router';
+import { Cmd } from '../styles/help.styled';
 
 type User = {
   name: string;
@@ -31,10 +32,18 @@ export default function LoginTerminal() {
   const [resultHistory, setResultHistory] = React.useState<JSX.Element[]>([]);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const [hints, setHints] = React.useState<JSX.Element[]>([
+    <div>
+      <div> use <Cmd>adduser `username` `password`</Cmd> to create new account</div>
+      <div> or aalready have an account</div>
+      <div> use <Cmd>su `username` `password`</Cmd> to login</div>
+    </div>
+  ]);
   const router = useRouter();
   const [user, setUser] = React.useState<User>(
     { name: 'visitor', password: '000000', auth: 0 }
   );
+
   function checkUser(user: User) {
     try {
       const response = window.ipc.invoke('checkUser', user);
@@ -121,6 +130,7 @@ export default function LoginTerminal() {
   const cleanHisotry = () => {
     setCmdHistory([]);
     setResultHistory([]);
+    setHints([]);
   }
 
 
@@ -187,9 +197,9 @@ export default function LoginTerminal() {
           );
         })}
       </div>
-      {
-
-      }
+      {hints.map((e, index) => (
+        <div key={index}>{e}</div>
+      ))}
     </Wrapper>
   );
 }
