@@ -101,6 +101,15 @@ export default function HomePage() {
     }
   }, []);
 
+  const showFoldersNames: () => Promise<string[]> = async () => {
+    const items = await window.ipc.invoke('getContentsWithOutFile', '');
+    return items;
+  }
+  const showFilesNames = async () => {
+    const items = await window.ipc.invoke('getContentsWithOutFolder', '');
+    return items;
+  }
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   }
@@ -118,6 +127,7 @@ export default function HomePage() {
       setThemeByResult,
       handleRouter,
       setUser,
+      setHints,
     );
     setInputValue('');
     setHints([]);
@@ -126,7 +136,7 @@ export default function HomePage() {
   };
 
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     const ctrlI = e.ctrlKey && e.key.toLowerCase() === "i";
     const ctrlL = e.ctrlKey && e.key.toLowerCase() === "l";
 
@@ -161,7 +171,8 @@ export default function HomePage() {
           hintCmds = [...hintCmds, cmd.cmd];
         }
       });
-      const returnedHints = argTab(inputValue, setInputValue, setHints, hintCmds);
+      const returnedHints = await argTab(inputValue, setInputValue, setHints, hintCmds, showFoldersNames, showFilesNames) as string[];
+      console.log('returnedHints', returnedHints)
       hintCmds = returnedHints ? [...hintCmds, ...returnedHints] : hintCmds;
 
       console.log('hintCmds', hintCmds);
@@ -175,16 +186,18 @@ export default function HomePage() {
           currentCmd.length !== 1
             ? `${currentCmd[0]} ${currentCmd[1]} ${hintCmds[0]}` : hintCmds[0]
         )
+
         setHints([]);
       }
+      console.log('hint contains: ', hintCmds)
     }
 
-    
 
-        if (ctrlL) {
-          router.push('/mail')
-        }
-    
+
+    if (ctrlL) {
+      router.push('/mail')
+    }
+
 
   }
 

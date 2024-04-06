@@ -45,7 +45,8 @@ export async function SetResult(
     clearHistory, CmdHistory: string[],
     setThemeByResult,
     handleRouter,
-    setUser,) {
+    setUser,
+    setHints) {
     //处理input
     const commandArray = _.split(_.trim(input), ' ');
     const validCommand = _.find(commands, { cmd: commandArray[0] });

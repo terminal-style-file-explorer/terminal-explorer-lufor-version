@@ -7,21 +7,21 @@ import theme from "../components/styles/themes";
  * @returns {string} tabs - Tab string
  */
 export const generateTabs = (num = 0): string => {
-    let tabs = "\xA0\xA0";
-    for (let i = 0; i < num; i++) {
-      tabs += "\xA0";
-    }
-    return tabs;
-  };
+  let tabs = "\xA0\xA0";
+  for (let i = 0; i < num; i++) {
+    tabs += "\xA0";
+  }
+  return tabs;
+};
 
 
-  /**
- * Check current render makes redirect for theme
- * @param {boolean} rerender - is submitted or not
- * @param {string[]} currentCommand - current submitted command
- * @param {string[]} themes - the command of the function
- * @returns {boolean} redirect - true | false
- */
+/**
+* Check current render makes redirect for theme
+* @param {boolean} rerender - is submitted or not
+* @param {string[]} currentCommand - current submitted command
+* @param {string[]} themes - the command of the function
+* @returns {boolean} redirect - true | false
+*/
 export const checkThemeSwitch = (
   currentCommand: string[],
   themes: string[]
@@ -35,20 +35,22 @@ export const checkThemeSwitch = (
 
 
 
-  /**
- * Perform advanced tab actions
- * @param {string} inputVal - current input value
- * @param {(value: React.SetStateAction<string>) => void} setInputVal - setInputVal setState
- * @param {(value: React.SetStateAction<string[]>) => void} setHints - setHints setState
- * @param {hintsCmds} hintsCmds - hints command array
- * @returns {string[] | undefined} hints command or setState action(undefined)
- */
-export const argTab = (
+/**
+* Perform advanced tab actions
+* @param {string} inputVal - current input value
+* @param {(value: React.SetStateAction<string>) => void} setInputVal - setInputVal setState
+* @param {(value: React.SetStateAction<string[]>) => void} setHints - setHints setState
+* @param {hintsCmds} hintsCmds - hints command array
+* @returns {string[] | undefined} hints command or setState action(undefined)
+*/
+export const argTab = async (
   inputVal: string,
   setInputVal: (value: React.SetStateAction<string>) => void,
   setHints: (value: React.SetStateAction<string[]>) => void,
-  hintsCmds: string[]
-): string[] | undefined => {
+  hintsCmds: string[],
+  showFilesAndFoldersNames: () => Promise<string[]>,
+  showFilesNames: () => Promise<string[]>
+): Promise<string[] | undefined> => {
   // 1) if input is 'themes '
   if (inputVal === "themes ") {
     setInputVal(`themes set`);
@@ -81,8 +83,26 @@ export const argTab = (
     return hintsCmds;
   }
 
-  else if(inputVal === 'themes'){
+  else if (inputVal === 'themes') {
     setInputVal('themes set');
+  }
+
+  else if (inputVal === 'cd') {
+    setInputVal('cd ');
+  }
+
+  else if (inputVal === 'cd ') {
+    const items = await showFilesAndFoldersNames();
+    return items;
+    // check things in the directory
+    // return things
+  }
+
+  else if (inputVal === 'open' || inputVal === 'open ') {
+    // check things in the directory but not contain folders
+    // return things
+    const items = await showFilesNames();
+    return items;
   }
 
   // wait for other cases

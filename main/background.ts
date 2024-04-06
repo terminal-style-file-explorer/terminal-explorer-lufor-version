@@ -160,7 +160,18 @@ ipcMain.handle('getContents', (_event) => {
   const items = getFilesAndFoldersNames(MainProcessContentPath);
   return items;
 });
-
+ipcMain.handle('getContentsWithOutFolder', (_event) => {
+  const items = getFilesAndFoldersNames(MainProcessContentPath);
+  return items.filter((item) => {
+    return fs.statSync(path.join(MainProcessContentPath, item)).isFile();
+  })
+})
+ipcMain.handle('getContentsWithOutFile', (_event) => {
+  const items = getFilesAndFoldersNames(MainProcessContentPath);
+  return items.filter((item) => {
+    return fs.statSync(path.join(MainProcessContentPath, item)).isDirectory();
+  })
+})
 ipcMain.on('setContentPath', (_event, arg) => {
   MainProcessContentPath = arg;
 });
