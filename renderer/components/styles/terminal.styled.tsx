@@ -12,6 +12,12 @@ export const Wrapper = styled.div`
   
 `;
 
+export const Container = styled.div`
+  padding: 1.25rem;
+  padding-top: 0.75rem;
+  height: calc(100vh - 2rem);
+`;
+
 export const CmdNotFound = styled.div`
   margin-top: 0.25rem;
   margin-bottom: 1rem;
