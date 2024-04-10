@@ -34,7 +34,7 @@ import { Cmd } from './styles/help.styled';
 
 export const commands: Command = [
   { cmd: "cls", desc: "clear the terminal", tab: 10 },
-  { cmd: "echo", desc: "print out anything", tab: 9 },
+  { cmd: "echo", desc: "print out path", tab: 9 },
   { cmd: "help", desc: "check available commands", tab: 9 },
   { cmd: "history", desc: "view command history", tab: 6 },
   // { cmd: "pwd", desc: "print current working directory", tab: 10 },
@@ -46,7 +46,8 @@ export const commands: Command = [
   { cmd: "note", desc: "enter clue book", tab: 9 },
   { cmd: "mail", desc: "enter mail", tab: 9 },
   { cmd: "options", desc: "check available options", tab: 6 },
-  { cmd: "exit", desc: "exit the terminal", tab: 10 },
+  { cmd: "exit", desc: "exit the terminal", tab: 9 },
+  { cmd: ":q", desc: "exit docs or mail or note or video", tab: 11 },
 ];
 type Term = {
   arg: string[];

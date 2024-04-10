@@ -5,7 +5,7 @@ import {
     HelpWrapper,
     KeyContainer,
 } from "../styles/help.styled";
-import { commands } from '../SetResult'
+import { commands } from '../Terminal'
 import { generateTabs } from "../../utils/funcs";
 
 export function Help(setHistorytoReturn: React.Dispatch<JSX.Element>) {
