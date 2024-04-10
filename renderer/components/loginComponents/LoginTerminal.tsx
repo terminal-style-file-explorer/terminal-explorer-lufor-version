@@ -23,7 +23,8 @@ type Command = {
 export const commands: Command = [
   { cmd: "adduser", desc: "create an account", tab: 6 },
   { cmd: "su", desc: "change user", tab: 11 },
-  { cmd: 'cls', desc: 'clear the terminal', tab: 10 }
+  { cmd: 'cls', desc: 'clear the terminal', tab: 10 },
+  { cmd: 'exit', desc: 'exit the terminal', tab: 10 }
 ];
 
 export default function LoginTerminal() {
@@ -110,6 +111,14 @@ export default function LoginTerminal() {
               </CmdNotFound>
             }
             break;
+          case "exit":
+            if (arg.length === 0) {
+              window.ipc.invoke('exit', '');
+            } else {
+              return <CmdNotFound>
+                invalid command: {cmd}
+              </CmdNotFound>
+            }
 
         }
       }

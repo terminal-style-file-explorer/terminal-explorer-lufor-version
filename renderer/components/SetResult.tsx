@@ -12,7 +12,7 @@ import { UsageDiv } from "./styles/outout.styled";
 import { Cmd } from "./styles/help.styled";
 import { User } from "./Terminal";
 import { setUserToLS } from "../utils/storage";
-
+import { commands } from "./Terminal";
 
 type Command = {
     cmd: string;
@@ -20,23 +20,7 @@ type Command = {
     tab: number;
 }[];
 
-export const commands: Command = [
-    { cmd: "cls", desc: "clear the terminal", tab: 10 },
-    { cmd: "echo", desc: "print out anything", tab: 9 },
-    { cmd: "help", desc: "check available commands", tab: 9 },
-    { cmd: "history", desc: "view command history", tab: 6 },
-    // { cmd: "pwd", desc: "print current working directory", tab: 10 },
-    { cmd: "themes", desc: "check available themes", tab: 7 },
-    { cmd: "adduser", desc: "create an account", tab: 6 },
-    { cmd: "su", desc: "change user", tab: 11 },
-    { cmd: "cd", desc: "change directory", tab: 11 },
-    { cmd: "dir", desc: "list directory contents", tab: 10 },
-    { cmd: "note", desc: "enter clue book", tab: 9 },
-    { cmd: "mail", desc: "enter mail", tab: 9 },
-    { cmd: "options", desc: "check available options", tab: 6 },
-    { cmd: 'open', desc: 'open a file', tab: 9 },
 
-];
 
 export async function SetResult(
     input: string,
@@ -253,6 +237,16 @@ export async function SetResult(
                     setHistorytoReturn(<UsageDiv>please input: <Cmd>open `filename`</Cmd></UsageDiv>)
                     setResuleHistory([...resultHistory, historytoReturn])
                 }
+                break;
+            case "exit":
+                if (arg.length === 0) {
+                    window.ipc.invoke('exit', '');
+                }
+                else {
+                    setHistorytoReturn(<UsageDiv>please input: <Cmd>exit</Cmd></UsageDiv>)
+                    setResuleHistory([...resultHistory, historytoReturn])
+                }
+                break;
             default:
                 break;
         }

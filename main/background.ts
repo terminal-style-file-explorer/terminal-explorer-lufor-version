@@ -218,3 +218,7 @@ ipcMain.handle('changeDirectory', (_event, arg: string) => {
   }
 
 })
+
+ipcMain.handle('exit', (_event) => {
+  app.quit();
+});
