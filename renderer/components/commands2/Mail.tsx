@@ -1,6 +1,6 @@
 
 
-function Mail () {
+function MailComponent () {
     return (
         <div>
             <h1>Mail</h1>
@@ -8,4 +8,4 @@ function Mail () {
     )
 }
 
-export default Mail;
+export default MailComponent
