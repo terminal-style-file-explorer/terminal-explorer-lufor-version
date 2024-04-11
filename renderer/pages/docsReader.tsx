@@ -4,11 +4,15 @@ import { useTheme } from "../hooks/useTheme";
 import GlobalStyle from "../components/styles/GlobalStyle";
 import { themeContext } from './home';
 import { useRouter } from "next/router";
+import mammoth from "mammoth";
+import { Container } from "../components/styles/terminal.styled";
 
 function DocsReader() {
   const { theme, themeLoaded, setMode } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
+  const [doc, setDoc] = useState("");
   const router = useRouter();
+  const { name } = router.query;
 
   // Disable browser's default behavior
   // to prevent the page go up when Up Arrow is pressed
@@ -46,6 +50,14 @@ function DocsReader() {
     setMode(switchTheme);
   };
 
+  useEffect(() => {
+    const doc = window.ipc.invoke('getDoc', name);
+    doc.then((res) => {
+      mammoth.convertToHtml({ arrayBuffer: res }).then((result) => {
+        setDoc(result.value);
+      });
+    });
+  }, [name]);
 
   return (
     <>
@@ -53,7 +65,9 @@ function DocsReader() {
         <ThemeProvider theme={selectedTheme}>
           <GlobalStyle theme={selectedTheme} />
           <themeContext.Provider value={themeSwitcher}>
-
+            <Container>
+              <div dangerouslySetInnerHTML={{ __html: doc }} />
+            </Container>
           </themeContext.Provider>
         </ThemeProvider>
       )}
