@@ -222,3 +222,17 @@ ipcMain.handle('changeDirectory', (_event, arg: string) => {
 ipcMain.handle('exit', (_event) => {
   app.quit();
 });
+
+
+
+ipcMain.handle('getDocs', async (_event, arg) => {
+  const docPath = path.join(MainProcessContentPath, arg);
+  try {
+    const doc = fs.readFileSync(docPath);
+    return doc
+  }
+  catch (error) {
+    console.error('Error reading doc:', error);
+    return '';
+  }
+});

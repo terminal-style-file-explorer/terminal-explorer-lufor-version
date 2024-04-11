@@ -196,7 +196,7 @@ export default function HomePage() {
 
 
     if (ctrlL) {
-      router.push('/mail')
+      router.push('/docsReader/?name=1%2Edocx'); 
     }
 
 

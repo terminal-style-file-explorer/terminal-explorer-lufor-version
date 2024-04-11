@@ -14,6 +14,9 @@ function DocsReader() {
   const router = useRouter();
   const { name } = router.query;
 
+
+  console.log('doc name', name)
+
   // Disable browser's default behavior
   // to prevent the page go up when Up Arrow is pressed
   useEffect(() => {
@@ -51,7 +54,7 @@ function DocsReader() {
   };
 
   useEffect(() => {
-    const doc = window.ipc.invoke('getDoc', name);
+    const doc = window.ipc.invoke('getDocs', name);
     doc.then((res) => {
       mammoth.convertToHtml({ arrayBuffer: res }).then((result) => {
         setDoc(result.value);
