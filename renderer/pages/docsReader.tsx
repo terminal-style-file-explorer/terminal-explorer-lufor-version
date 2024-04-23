@@ -62,6 +62,10 @@ function DocsReader() {
     });
   }, [name]);
 
+  const backToHome = () => {
+    router.push('/home');
+  }
+
   return (
     <>
       {themeLoaded && (
