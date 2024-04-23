@@ -5,6 +5,7 @@ import Store from 'electron-store'
 import { createWindow } from './helpers'
 import { fsync } from 'fs'
 import { isContext } from 'vm'
+import express from 'express'
 
 import * as fs from 'fs';
 type User = {
@@ -31,8 +32,10 @@ if (isProd) {
     width: 1000,
     height: 600,
     frame: true,
+
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
     },
   })
 
@@ -235,4 +238,18 @@ ipcMain.handle('getDocs', async (_event, arg) => {
     console.error('Error reading doc:', error);
     return '';
   }
+});
+
+const server = express();
+const port = 8881; // 选择一个合适的端口号
+server.use(express.static(contentPath));
+server.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+ipcMain.handle('getVideo', async (_event, arg) => {
+  const videoPath = path.join(MainProcessContentPath, arg);
+  const relativePath = path.relative(contentPath, videoPath);
+  console.log('relativePath', relativePath);
+  return relativePath;
 });

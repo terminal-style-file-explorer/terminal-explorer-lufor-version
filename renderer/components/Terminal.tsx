@@ -196,7 +196,7 @@ export default function HomePage() {
 
 
     if (ctrlL) {
-      router.push('/docsReader/?name=1%2Edocx'); 
+      router.push('/videoPlayer/?name=1.mp4'); 
     }
 
 
