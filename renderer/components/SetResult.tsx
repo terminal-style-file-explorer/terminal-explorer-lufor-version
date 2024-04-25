@@ -217,8 +217,6 @@ export async function SetResult(
                 }
                 break;
             case "mail":
-                //router.push('/mail'); 应该在terminal里面实现，然后导入function进来 如 pushRouter('mail')
-                //应检查是否有参数
                 if (arg.length === 0) {
                     handleRouter('/mail');
                     setHistorytoReturn(<Empty />)
@@ -232,7 +230,30 @@ export async function SetResult(
                 setResuleHistory([...resultHistory, notFinished()])
                 break;
             case "open":
-                if (arg.length === 1) { }
+                if (arg.length === 1) {
+                    const result = await window.ipc.invoke('checkFile', arg[0]);
+                    console.log('result in invoke checkFile', result);
+                    if (result) {
+                        const fileType = arg[0].split('.')[1];
+                        if (fileType === 'docx') {
+                            setHistorytoReturn(<Empty />)
+                            setResuleHistory([...resultHistory, historytoReturn])
+                            handleRouter(`/docsReader/?name=${arg[0]}`)
+                        } else if (fileType === 'mp4' || fileType === 'mp3' || fileType === 'wav') {
+                            setHistorytoReturn(<Empty />)
+                            setResuleHistory([...resultHistory, historytoReturn])
+                            handleRouter(`/videoPlayer/?name=${arg[0]}`)
+                        } else {
+                            setHistorytoReturn(<UsageDiv>not support type</UsageDiv>)
+                            setResuleHistory([...resultHistory, historytoReturn])
+
+                        }
+                    }
+                    else {
+                        setHistorytoReturn(<UsageDiv>open: no such file: {arg[0]}</UsageDiv>)
+                        setResuleHistory([...resultHistory, historytoReturn])
+                    }
+                }
                 else {
                     setHistorytoReturn(<UsageDiv>please input: <Cmd>open `filename`</Cmd></UsageDiv>)
                     setResuleHistory([...resultHistory, historytoReturn])
