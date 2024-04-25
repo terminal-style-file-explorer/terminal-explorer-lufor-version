@@ -240,6 +240,11 @@ ipcMain.handle('getDocs', async (_event, arg) => {
   }
 });
 
+ipcMain.handle('checkFile', (_event, arg) => {
+  const filePath = path.join(MainProcessContentPath, arg);
+  return fs.statSync(filePath).isFile();
+});
+
 const server = express();
 const port = 8881; // 选择一个合适的端口号
 server.use(express.static(contentPath));
