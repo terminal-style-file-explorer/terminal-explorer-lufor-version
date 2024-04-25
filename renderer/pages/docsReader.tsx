@@ -1,11 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState,useRef } from "react";
 import { DefaultTheme, ThemeProvider } from "styled-components";
 import { useTheme } from "../hooks/useTheme";
 import GlobalStyle from "../components/styles/GlobalStyle";
 import { themeContext } from './home';
 import { useRouter } from "next/router";
 import mammoth from "mammoth";
-import { Container } from "../components/styles/terminal.styled";
+import { Container, Form, Input, User } from "../components/styles/terminal.styled";
 
 function DocsReader() {
   const { theme, themeLoaded, setMode } = useTheme();
@@ -66,6 +66,29 @@ function DocsReader() {
     router.push('/home');
   }
 
+  const [inputValue, setInputValue] = useState('');
+
+
+  const [user, setUser] = useState({ name: '', password: '', auth: 0 });
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  };
+  const contentRef = useRef(null);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (!localStorage.getItem('user')) {
+      router.push('/login')
+    }
+    else {
+      setUser(JSON.parse(localStorage.getItem('user')))
+    }
+  }, []);
+
   return (
     <>
       {themeLoaded && (
@@ -74,6 +97,20 @@ function DocsReader() {
           <themeContext.Provider value={themeSwitcher}>
             <Container>
               <div dangerouslySetInnerHTML={{ __html: doc }} />
+              <Form onSubmit={handleSubmit} className='flex'>
+                <label>
+                  <User>{user.name ? user.name + "@:  " : "user" + "@:   "}</User>
+                </label>
+                <Input title="terminal-input " className='w-full flex-1'
+                  type="text"
+                  id='terminal-input'
+                  autoFocus
+                  spellCheck="false"
+                  value={inputValue}
+                  onChange={handleChange}
+                  ref={inputRef}
+                />
+              </Form>
             </Container>
           </themeContext.Provider>
         </ThemeProvider>
