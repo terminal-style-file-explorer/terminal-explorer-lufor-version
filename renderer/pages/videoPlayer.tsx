@@ -5,8 +5,9 @@ import GlobalStyle from "../components/styles/GlobalStyle";
 import { themeContext } from './home';
 import { useRouter } from "next/router";
 import ReactPlayer from "react-player";
-import { Container, Form, Input, User } from "../components/styles/terminal.styled";
+import { Container, Form, Hints, Input, User } from "../components/styles/terminal.styled";
 import { useRef } from "react";
+import { Cmd, KeyContainer } from "../components/styles/help.styled";
 
 function VideoPlayer() {
   const { theme, themeLoaded, setMode } = useTheme();
@@ -68,6 +69,9 @@ function VideoPlayer() {
 
   const [user, setUser] = useState({ name: '', password: '', auth: 0 });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (inputValue === 'exit') {
+      router.push('/home');
+    }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -117,6 +121,10 @@ function VideoPlayer() {
                   ref={inputRef}
                 />
               </Form>
+              <KeyContainer>
+                <div>Submit <Cmd>exit</Cmd> back to home</div>
+                <div>Tab <Cmd>Tab</Cmd> key to change focus</div>
+              </KeyContainer>
             </Container>
 
           </themeContext.Provider>

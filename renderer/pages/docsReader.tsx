@@ -6,6 +6,7 @@ import { themeContext } from './home';
 import { useRouter } from "next/router";
 import mammoth from "mammoth";
 import { Container, Form, Input, User } from "../components/styles/terminal.styled";
+import { Cmd, KeyContainer } from "../components/styles/help.styled";
 
 function DocsReader() {
   const { theme, themeLoaded, setMode } = useTheme();
@@ -71,6 +72,9 @@ function DocsReader() {
 
   const [user, setUser] = useState({ name: '', password: '', auth: 0 });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (inputValue === 'exit') {
+      router.push('/home');
+    }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -111,6 +115,10 @@ function DocsReader() {
                   ref={inputRef}
                 />
               </Form>
+              <KeyContainer>
+                <div>Submit <Cmd>exit</Cmd> back to home</div>
+                <div>Tab <Cmd>Tab</Cmd> change focus</div>
+                </KeyContainer>
             </Container>
           </themeContext.Provider>
         </ThemeProvider>
