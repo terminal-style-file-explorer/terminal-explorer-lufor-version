@@ -245,7 +245,7 @@ export async function SetResult(
                         } else if (fileType === 'mp4' || fileType === 'mp3' || fileType === 'wav') {
                             setHistorytoReturn(<Empty />)
                             setResuleHistory([...resultHistory, historytoReturn])
-                            handleRouter(`/videoPlayer/?name=${arg[0]}`)
+                            handleRouter(`/videoPlayer/?name=${arg[1]}`)
                         } else {
                             setHistorytoReturn(<UsageDiv>not support type</UsageDiv>)
                             setResuleHistory([...resultHistory, historytoReturn])
