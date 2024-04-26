@@ -48,6 +48,7 @@ export const commands: Command = [
   { cmd: "options", desc: "check available options", tab: 6 },
   { cmd: "exit", desc: "exit the terminal", tab: 9 },
   { cmd: ":q", desc: "exit docs or mail or note or video", tab: 11 },
+  { cmd: "open", desc: "open a file", tab: 9 },
 ];
 type Term = {
   arg: string[];
@@ -196,7 +197,7 @@ export default function HomePage() {
 
 
     if (ctrlL) {
-      router.push('/videoPlayer/?name=1.mp4'); 
+      router.push('/videoPlayer/?name=1.mp4');
     }
 
 

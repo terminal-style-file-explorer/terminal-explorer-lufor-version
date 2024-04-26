@@ -10,9 +10,8 @@ import { ThemesInvalid } from "./commands2/Themes";
 const myTheme = _.keys(theme);
 import { UsageDiv } from "./styles/outout.styled";
 import { Cmd } from "./styles/help.styled";
-import { User } from "./Terminal";
+import { User , commands} from "./Terminal";
 import { setUserToLS } from "../utils/storage";
-import { commands } from "./Terminal";
 
 type Command = {
     cmd: string;
@@ -98,6 +97,7 @@ export async function SetResult(
         setResuleHistory([...resultHistory, historytoReturn])
     }
     else if (validCommand) {
+        console.log('validCommand', validCommand);
         switch (command) {
             case "cls":
                 if (arg.length === 0) {
@@ -230,15 +230,18 @@ export async function SetResult(
                 setResuleHistory([...resultHistory, notFinished()])
                 break;
             case "open":
-                if (arg.length === 1) {
-                    const result = await window.ipc.invoke('checkFile', arg[0]);
+
+                if (arg.length === 2) {
+                    alert('open')
+                    const result = await window.ipc.invoke('checkFile', arg[1]);
+                    console.log("arg name:",arg[1])
                     console.log('result in invoke checkFile', result);
                     if (result) {
-                        const fileType = arg[0].split('.')[1];
+                        const fileType = arg[1].split('.')[1];
                         if (fileType === 'docx') {
                             setHistorytoReturn(<Empty />)
                             setResuleHistory([...resultHistory, historytoReturn])
-                            handleRouter(`/docsReader/?name=${arg[0]}`)
+                            handleRouter(`/docsReader/?name=${arg[1]}`)
                         } else if (fileType === 'mp4' || fileType === 'mp3' || fileType === 'wav') {
                             setHistorytoReturn(<Empty />)
                             setResuleHistory([...resultHistory, historytoReturn])

@@ -20,15 +20,7 @@ function DocsReader() {
 
   // Disable browser's default behavior
   // to prevent the page go up when Up Arrow is pressed
-  useEffect(() => {
-    window.addEventListener(
-      "keydown",
-      e => {
-        ["ArrowUp", "ArrowDown"].indexOf(e.code) > -1 && e.preventDefault();
-      },
-      false
-    );
-  }, []);
+
 
   useEffect(() => {
     setSelectedTheme(theme);
@@ -63,23 +55,31 @@ function DocsReader() {
     });
   }, [name]);
 
-  const backToHome = () => {
-    router.push('/home');
-  }
 
   const [inputValue, setInputValue] = useState('');
 
 
   const [user, setUser] = useState({ name: '', password: '', auth: 0 });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (inputValue === 'exit') {
+    e.preventDefault();
+    if (inputValue === ':wq') {
       router.push('/home');
     }
   };
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    inputRef.current.focus();
   }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp") {
+      window.scrollBy(0, -50); // 向上滚动50个像素
+    }
+    // 按下箭头向下
+    else if (e.key === "ArrowDown") {
+      window.scrollBy(0, 50); // 向下滚动50个像素
+    }
   };
   const contentRef = useRef(null);
   const inputRef = useRef(null);
@@ -94,7 +94,7 @@ function DocsReader() {
   }, []);
 
   return (
-    <>
+    <div onKeyDown={handleKeyDown} >
       {themeLoaded && (
         <ThemeProvider theme={selectedTheme}>
           <GlobalStyle theme={selectedTheme} />
@@ -123,7 +123,7 @@ function DocsReader() {
           </themeContext.Provider>
         </ThemeProvider>
       )}
-    </>
+    </div>
   )
 }
 export default DocsReader;
