@@ -230,22 +230,22 @@ export async function SetResult(
                 setResuleHistory([...resultHistory, notFinished()])
                 break;
             case "open":
+                alert(`open: ${arg.length}`)
+                if (arg.length === 1) {
 
-                if (arg.length === 2) {
-                    alert('open')
-                    const result = await window.ipc.invoke('checkFile', arg[1]);
+                    const result = await window.ipc.invoke('checkFile', arg[0]);
                     console.log("arg name:",arg[1])
                     console.log('result in invoke checkFile', result);
                     if (result) {
-                        const fileType = arg[1].split('.')[1];
+                        const fileType = arg[0].split('.')[1];
                         if (fileType === 'docx') {
                             setHistorytoReturn(<Empty />)
                             setResuleHistory([...resultHistory, historytoReturn])
-                            handleRouter(`/docsReader/?name=${arg[1]}`)
+                            handleRouter(`/docsReader/?name=${arg[0]}`)
                         } else if (fileType === 'mp4' || fileType === 'mp3' || fileType === 'wav') {
                             setHistorytoReturn(<Empty />)
                             setResuleHistory([...resultHistory, historytoReturn])
-                            handleRouter(`/videoPlayer/?name=${arg[1]}`)
+                            handleRouter(`/videoPlayer/?name=${arg[0]}`)
                         } else {
                             setHistorytoReturn(<UsageDiv>not support type</UsageDiv>)
                             setResuleHistory([...resultHistory, historytoReturn])
