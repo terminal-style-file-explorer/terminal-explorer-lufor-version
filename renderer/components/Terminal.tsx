@@ -101,6 +101,7 @@ export default function HomePage() {
     else {
       setUser(JSON.parse(localStorage.getItem('user')))
     }
+    window.ipc.invoke('getContents', '');
   }, []);
 
   const showFoldersNames: () => Promise<string[]> = async () => {
