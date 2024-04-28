@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle<{ theme: DefaultTheme }>`
     border-width: 0;
     border-style: solid;
     border-color: theme('borderColor.DEFAULT', currentColor);
+    text-shadow: 0 0 7px rgba(0, 255, 0, 0.7); /* 调整这里的颜色和模糊程度 */
   }
 
   blockquote, dl, dd, h1, h2, h3,
@@ -35,6 +36,7 @@ const GlobalStyle = createGlobalStyle<{ theme: DefaultTheme }>`
     color: ${({ theme }) => theme.colors?.text[100]};
     min-height: 100vh;
 
+    
   }
 
   /*
