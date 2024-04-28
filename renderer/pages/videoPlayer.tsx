@@ -17,18 +17,6 @@ function VideoPlayer() {
   const [videoPath, setVideoPath] = useState('');
 
 
-  // Disable browser's default behavior
-  // to prevent the page go up when Up Arrow is pressed
-  useEffect(() => {
-    window.addEventListener(
-      "keydown",
-      e => {
-        ["ArrowUp", "ArrowDown"].indexOf(e.code) > -1 && e.preventDefault();
-      },
-      false
-    );
-  }, []);
-
   useEffect(() => {
     setSelectedTheme(theme);
   }, [themeLoaded]);
@@ -49,7 +37,6 @@ function VideoPlayer() {
   }, [selectedTheme]);
 
   const themeSwitcher = (switchTheme: DefaultTheme) => {
-    setSelectedTheme(switchTheme);
     setMode(switchTheme);
   };
 
@@ -58,28 +45,26 @@ function VideoPlayer() {
     const fetchVideoPath = async () => {
       const path = await window.ipc.invoke('getVideo', name);
       setVideoPath(path);
-      alert(path);
     };
 
     fetchVideoPath();
   }, [name]);
 
   const [inputValue, setInputValue] = useState('');
-
+  const contentRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  
 
   const [user, setUser] = useState({ name: '', password: '', auth: 0 });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (inputValue === ':wq') {
+    if (inputValue === ':q') {
       router.push('/home');
     }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   }
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  };
-  const contentRef = useRef(null);
-  const inputRef = useRef(null);
+
 
   useEffect(() => {
     if (!localStorage.getItem('user')) {
@@ -91,20 +76,20 @@ function VideoPlayer() {
   }, []);
 
   return (
-    <  >
+    < div >
       {themeLoaded && (
         <ThemeProvider theme={selectedTheme}>
           <GlobalStyle theme={selectedTheme} />
           <themeContext.Provider value={themeSwitcher}>
-            <Container>
-              <div style={{ width: '100%', paddingTop: '56.25%', position: 'relative' }}>
+            <Container >
+              <div ref={contentRef} style={{ width: '100%', paddingTop: '56.25%', position: 'relative' }}>
                 <ReactPlayer
                   url={`http://localhost:8881/${videoPath}`}
                   controls={true}
                   width="100%"
                   height="100%"
                   style={{ position: 'absolute', top: 0, left: 0 }}
-                  ref={contentRef}
+
                 />
               </div>
               <Form onSubmit={handleSubmit} className='flex'>
@@ -122,15 +107,15 @@ function VideoPlayer() {
                 />
               </Form>
               <KeyContainer>
-                <div>Submit <Cmd>exit</Cmd> back to home</div>
-                <div>Tab <Cmd>Tab</Cmd> key to change focus</div>
+                <div>Submit <Cmd>:q</Cmd> back to home</div>
+                <div>Tab <Cmd>Arrow Up/Down</Cmd> key to change focus</div>
               </KeyContainer>
             </Container>
 
           </themeContext.Provider>
         </ThemeProvider>
       )}
-    </>
+    </div>
   )
 }
 

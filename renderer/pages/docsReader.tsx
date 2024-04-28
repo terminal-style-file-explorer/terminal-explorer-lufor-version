@@ -62,7 +62,7 @@ function DocsReader() {
   const [user, setUser] = useState({ name: '', password: '', auth: 0 });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (inputValue === ':wq') {
+    if (inputValue === ':q') {
       router.push('/home');
     }
   };
