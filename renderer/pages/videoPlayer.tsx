@@ -69,7 +69,7 @@ function VideoPlayer() {
 
   const [user, setUser] = useState({ name: '', password: '', auth: 0 });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (inputValue === 'exit') {
+    if (inputValue === ':wq') {
       router.push('/home');
     }
   };
